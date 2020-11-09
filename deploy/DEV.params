@@ -1,0 +1,4 @@
+MEMORY_LIMIT=512Mi
+REPLICAS="1"
+PVC_NAME="pvc-gtdvnasnfs0648-cgqt4082-165265-165265"
+BASE_ROUTE="namicggtd15d-webapi.nam.nsroot.net"
