@@ -3,6 +3,7 @@ from app.properties import Properties
 from app.log import log
 from app import utils
 
+import os
 from watchdog.observers import Observer
 import time
 
@@ -20,6 +21,23 @@ class Listener():
         path = utils.get_path_from_list(*path_dir_names)
         log.info('Starting listener inbox')
         log.info(path)
+
+        path_test = path_dir_names.copy()
+        path_test.insert(len(path_test), 'Cat_Holding_20200506.txt')
+        file1 = utils.get_path_from_list(*path_test)
+        if os.path.exists(file1):
+            log.info('%s exists', file1)
+        else:
+            log.info('%s does not exists', file1)
+
+
+        path_test2 = path_dir_names.copy()
+        path_test2.insert(len(path_test2), 'CargaPerRel_AyB_ENE20_.xlsx ')
+        file2 = utils.get_path_from_list(*path_test2)
+        if os.path.exists(file2):
+            log.info('%s exists', file2)
+        else:
+            log.info('%s does not exists', file2)
 
         self.observer_inbox.schedule(event_handler, path, recursive = True)
         self.observer_inbox.start()
