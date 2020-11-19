@@ -15,6 +15,7 @@ class HandlerInbox(FileSystemEventHandler):
     
     @staticmethod
     def on_created(event):
+        log.info(event)
         if os.path.exists(event.src_path):
             path_dir_names = prop.INBOX_PATH
 
@@ -27,6 +28,10 @@ class HandlerInbox(FileSystemEventHandler):
             log.info('File %s Arrived inbox',file_name)
             service.send_file(file_name)
             return SUCCESS
+    
+    @staticmethod
+    def on_any_event(event):
+        log.info(event)
     
 class HandlerOutbox(FileSystemEventHandler):
 
@@ -52,4 +57,6 @@ class HandlerOutbox(FileSystemEventHandler):
             log.info('Cannot start orquestrate process with %s', file_name)
             return False
         
-    
+    @staticmethod
+    def on_any_event(event):
+        log.info(event)

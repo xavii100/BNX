@@ -19,6 +19,7 @@ class Listener():
         path_dir_names = prop.INBOX_PATH
         path = utils.get_path_from_list(*path_dir_names)
         log.info('Starting listener inbox')
+        log.info(path)
 
         self.observer_inbox.schedule(event_handler, path, recursive = True)
         self.observer_inbox.start()
@@ -27,6 +28,7 @@ class Listener():
         path_dir_names_outbox = prop.OUTBOX_PATH
         path_outbox = utils.get_path_from_list(*path_dir_names_outbox)
         log.info('Starting listener outbox')
+        log.info(path_outbox)
 
         self.observer_outbox.schedule(event_handler_outbox, path_outbox, recursive = True)
         self.observer_outbox.start()
