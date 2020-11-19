@@ -1,4 +1,5 @@
 from app.handler import HandlerInbox, HandlerOutbox
+from app.service_impl import ServiceImpl
 from app.properties import Properties
 from app.log import log
 from app import utils
@@ -7,6 +8,7 @@ import os
 from watchdog.observers import Observer
 import time
 
+service = ServiceImpl()
 prop = Properties()
 
 class Listener():
@@ -14,6 +16,30 @@ class Listener():
     def __init__(self):
         self.observer_inbox = Observer()
         self.observer_outbox = Observer()
+
+    def check_outbox(self):    
+        try:
+            event_handler = HandlerInbox()
+            path_dir_names = prop.INBOX_PATH
+            path_inbox = utils.get_path_from_list(*path_dir_names)
+            log.info(path_inbox)
+            log.info('Starting listener inbox')
+            while True:
+                self.start_listener(path_inbox)
+                time.sleep(1)
+        except KeyboardInterrupt:
+            self.observer.stop()
+
+    def start_listener(self, path_inbox):
+        directories = os.listdir(path_inbox)
+        if len(directories) != 0:
+            print(directories)
+            for file_name in directories:
+                print(file_name)
+                service.send_file(file_name)
+
+
+
 
     def check_file_inbox(self):
         event_handler = HandlerInbox()
