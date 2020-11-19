@@ -29,4 +29,4 @@ COPY . .
 # Setup runtime
 RUN chmod -R g+rwx .
 EXPOSE 8080
-CMD ["flask", "run"]
+CMD ["python", "setup.py"]
