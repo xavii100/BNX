@@ -1,4 +1,3 @@
-import os
 
 '''
     Properties class.
@@ -17,37 +16,37 @@ class Properties(object):
                 Properties.__properties = yml
 
     @property
-    def ACCEPT(self):
-        return self.__properties['accept']['name']
-
-    @property
-    def CONTENT(self):
-        return self.__properties['contentType']['name']
-
-    @property
     def CONTENT_LANGUAGE(self):
-        return self.__properties['contentLanguage']['name']
+        return self.__properties['content-language']
 
     @property
-    def REQUEST_FORMAT(self):
-        return self.__properties['controller']['format']
-        
-    @property
-    def RESPONSE_FORMAT(self):
-        return self.__properties['controller']['response']['format']
+    def REJECTED_FOLDERS(self):
+        return self.__properties['excluded-folders']
 
     @property
-    def SUCCESS(self):
-        return self.__properties['success']
-    
+    def COMMON_FRAMEWORK_URI(self):
+        return self.__properties['client']['Common-Framework']['uri']
+
     @property
-    def URL_PREFIX(self):
-        uri = os.environ.get('SUFFIX')
-        if uri is not None:
-            return uri
-        else: 
-            return '/api/v1'
+    def COMMON_FRAMEWORK_PREFIX(self):
+        return self.__properties['client']['Common-Framework']['prefix']
+
+    @property
+    def COMMON_FRAMEWORK_API(self):
+        return self.__properties['client']['Common-Framework']['cf-api']
+
+    @property
+    def INBOX_PATH(self):
+        return self.__properties['inbox-path']
+
+    @property
+    def ORCHESTRATE_API(self):
+        return self.__properties['client']['Common-Framework']['orchestrate-api']
+
+    @property
+    def OUTBOX_PATH(self):
+        return self.__properties['outbox-path']
 
     @property
     def UUID(self):
-        return self.__properties['uuid']['name']
+        return self.__properties['uuid']

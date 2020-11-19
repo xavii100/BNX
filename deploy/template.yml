@@ -15,6 +15,17 @@ parameters:
   displayName: Application Name
   name: APP_NAME
   required: true
+- description: FS Group and RunAsUser param.
+  displayName: USERFSGROUP
+  name: USR_FS
+  required: true
+- description: Supplementary Group 1.
+  displayName: Supp Group 1
+  name: SUPP_GROUP_1
+  required: true
+- description: Supplementary Group 2.
+  displayName: Supp Group 2
+  name: SUPP_GROUP_2
 - description: The image name for the application.
   displayName: Image Name
   name: IMAGE_NAME
@@ -44,6 +55,14 @@ parameters:
 - description: Base Route
   displayName: Base Route
   name: BASE_ROUTE
+  required: true
+- description: The fs base path.
+  displayName: Base Path
+  name: BASE_PATH
+  required: true
+- description: Notifications Route
+  displayName: Notifications Route
+  name: NOTIFICATIONS_URL
   required: true
 - description: Health check endpoint. Defaults to '/'
   displayName: Custom Health Check Endpoint
@@ -124,6 +143,12 @@ objects:
         - name: pvc-nas
           persistentVolumeClaim:
             claimName: "${PVC_NAME}"
+        securityContext:
+          fsGroup: ${{USR_FS}}
+          runAsUser: ${{USR_FS}}
+          supplementalGroups:
+            - ${{SUPP_GROUP_1}}
+            - ${{SUPP_GROUP_2}}
         containers:
         - name: "${APP_NAME}"
           image: "${DOCKER_REGISTRY}/${DOCKER_NAMESPACE}/${IMAGE_NAME}:${APP_VERSION}"
@@ -133,24 +158,10 @@ objects:
               value: "${ENV}"
             - name: BASE_ROUTE
               value: "${BASE_ROUTE}"
-          livenessProbe:
-            failureThreshold: 10
-            httpGet:
-              path: "${HEALTH_CHECK_ENDPOINT}"
-              port: 8080
-              scheme: HTTP
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 10
-            httpGet:
-              path: "${HEALTH_CHECK_ENDPOINT}"
-              port: 8080
-              scheme: HTTP
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
+            - name: BASE_PATH
+              value: "${BASE_PATH}"
+            - name: NOTIFICATIONS_URL
+              value: "${NOTIFICATIONS_URL}"
           resources:
             limits:
               memory: ${MEMORY_LIMIT}

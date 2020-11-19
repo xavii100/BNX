@@ -1,31 +1,28 @@
-from app.exception_handler import exception as error_blueprint
-from app.controller import notifications as main_blueprint    
-from app.properties_exc import PropertiesException
-from app.properties_log import PropertiesLog
+from app import custom_config
 from app.properties import Properties
-from app.log import log
-from flask import Flask
 import yaml
+import os
 
-'''
-    Function to create app with an specific env.
-'''
-def create_app(env = 'Dev'):
-    app = Flask(__name__)
+def create_app():    
+    os.environ["ENVIRONMENT"] = "DEV"
+    env = os.environ.get('ENVIRONMENT')
+
+    config = __custom_config(env)
+    path = config.PATH_CONFIG
     
-    app.config.from_object('app.custom_config.'+env+'Config')
-    path = app.config['PATH_CONFIG']
-
     yml = init_properties(path)
-    
-    Properties(yml['properties'])
-    PropertiesException(yml['exception'])    
-    PropertiesLog(yml['log'])
+    Properties(yml)
 
-    app.register_blueprint(error_blueprint)
-    app.register_blueprint(main_blueprint)
-        
-    return app
+def __custom_config(env):
+    if env == 'DEV':
+        return custom_config.DEVConfig()
+    if env == 'SIT':
+        return custom_config.SITConfig()
+    if env == 'UAT':
+        return custom_config.UATConfig()
+    if env == 'PROD':
+        return custom_config.PRODConfig()
+
 
 def init_properties(path_config):
    with open (path_config) as file: 

@@ -1,5 +1,7 @@
+from app.listener import Listener
 from app import create_app
 
-if __name__ == '__main__':
-    app = create_app()
-    app.run(host='0.0.0.0', debug = True, port=8080)
+if __name__ == "__main__":
+    create_app()
+    listener = Listener()
+    listener.check_file_inbox()
