@@ -13,13 +13,18 @@ def create_folder(folder_name):
 
 def get_path_from_list(*argv):
     final = ""
-    os.environ["BASE_PATH"] = "C:"
+    # os.environ["BASE_PATH"] = "C:"
+    base_path = os.environ.get('BASE_PATH')
+    
+    if base_path is None:
+        base_path = "C:"
+
     if os.name == "nt":
         # C:\carpeta\carpeta\carpeta
-        final = "{}\\{}".format(os.environ.get('BASE_PATH'), "\\".join(argv))
+        final = "{}\\{}".format(base_path, "\\".join(argv))
     else:
         # /app/carpeta/carpeta
-        final = "{}/{}".format(os.environ.get('BASE_PATH'), "/".join(argv))
+        final = "{}/{}".format(base_path, "/".join(argv))
     return final
 
 def get_outbox_file_name(final_path):

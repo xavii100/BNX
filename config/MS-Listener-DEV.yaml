@@ -1,6 +1,6 @@
 client:
   Common-Framework:
-    uri: 'http://localhost:8080'
+    uri: 'http://trr-generic-c-common-framework.icg-msst-trr-165265.svc.cluster.local:8080'
     prefix: /api/v1
     cf-api: /treasury/common-framework/move
     orchestrate-api: /treasury/common-framework/orchestrate
@@ -10,14 +10,6 @@ excluded-folders:
   - TRASH_FILES
 content-language: 'en'
 inbox-path:
-  - Users
-  - JS59932
-  - Desktop
-  - TRR
   - inbox
 outbox-path:
-  - Users
-  - JS59932
-  - Desktop
-  - TRR
   - outbox
