@@ -40,4 +40,8 @@ class Listener():
 
     def is_valid_file(self, file_name, path):
         final_path = utils.append_file_name_to_path(path, file_name)
-        return os.path.exists(final_path) and os.path.isfile(final_path)
+        if os.path.exists(final_path) and os.path.isfile(final_path):
+            size = os.path.getsize(final_path)
+            if size > 0:
+                return True
+        return False
