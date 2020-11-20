@@ -1,4 +1,13 @@
+from app.properties import Properties
+
 import os
+
+properties = Properties()
+
+def return_outbox_path(date_path):
+    outbox_path = properties.OUTBOX_PATH.copy()
+    outbox_path.insert(len(outbox_path), date_path)
+    return outbox_path
 
 def append_file_name_to_path(path, file_name):
     final = ""

@@ -24,17 +24,16 @@ class ServiceImpl(Service, object):
             file_name)
         log.info('Common Framework move_api was called')        
         if response is not None:
-
             log.info('Common Framework response: %s', response.status_code)
             if response.status_code == 200:
                 log.info('Common Framework Call Successful')
                 data = response.json()
-        
+                log.info('Common Framework response data: %s', data)
+                
                 path = data['date_folder']
                 file_name = data['file_name']
         
                 return self.orchestrate_file(path, file_name)
-                
             elif response.status_code != 500:
                 data = response.json()
                 message = data['details']
@@ -46,10 +45,15 @@ class ServiceImpl(Service, object):
                 log.info('Common framework did not send a readable message')
                 return FAILED
     
-    def orchestrate_file(self, path, file_name):
+    def orchestrate_file(self, date_path, file_name):
+        log.info('Appending outbox path with date_path')
+        path = utils.return_outbox_path(date_path)
+        log.info('Append return %s', path)
+
         log.info('Calling Orchestrate API')
         response = client_common_framework.orquestrate(path, 
             file_name)
+        log.info('Orchestrate API was called successfully')
 
         if response is not None:
             log.info('Orchestrate API response: %s', response.status_code)

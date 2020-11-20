@@ -78,5 +78,7 @@ class TestServiceImpl():
 
     def mock_properties(self, mocker):
         inbox_path = ['nas', 'inbox']
+        outbox_path = ['nas', 'inbox']
 
         mocker.patch.object(Properties, 'INBOX_PATH', inbox_path)
+        mocker.patch.object(Properties, 'OUTBOX_PATH', outbox_path)
