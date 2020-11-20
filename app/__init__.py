@@ -1,17 +1,26 @@
+
 from app import custom_config
 from app.properties import Properties
+from flask import Flask
 import yaml
 import os
 
 def create_app():    
-    os.environ["ENVIRONMENT"] = "DEV"
-    env = os.environ.get('ENVIRONMENT')
+    app = Flask(__name__)
+
+    if "ENVIRONMENT" in os.environ:
+        env = os.environ.get('ENVIRONMENT')
+    else:
+        env = 'DEV'
 
     config = __custom_config(env)
     path = config.PATH_CONFIG
     
     yml = init_properties(path)
     Properties(yml)
+
+
+    return app
 
 def __custom_config(env):
     if env == 'DEV':

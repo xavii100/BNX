@@ -5,6 +5,8 @@ from app.log import log
 from app import utils
 
 properties = Properties()
+SUCCESS = 1
+FAILED = 0
 
 class ServiceImpl(Service, object):
 
@@ -16,21 +18,33 @@ class ServiceImpl(Service, object):
         return self._instance
 
     def send_file(self, file_name):
-        log.info('Calling Common Framework')
+        log.info('Calling Common Framework move_api')
         path_dir_names = properties.INBOX_PATH
         response = client_common_framework.common_framework(path_dir_names, 
             file_name)
-        
+        log.info('Common Framework move_api was called')        
         if response is not None:
+
             log.info('Common Framework response: %s', response.status_code)
             if response.status_code == 200:
                 log.info('Common Framework Call Successful')
+                data = response.json()
+        
+                path = data['date_folder']
+                file_name = data['file_name']
+        
+                return self.orchestrate_file(path, file_name)
+                
             elif response.status_code != 500:
                 data = response.json()
                 message = data['details']
+
                 log.info('Common Framework response: %s',message)
+                return FAILED
             else: 
+
                 log.info('Common framework did not send a readable message')
+                return FAILED
     
     def orchestrate_file(self, path, file_name):
         log.info('Calling Orchestrate API')
@@ -40,11 +54,16 @@ class ServiceImpl(Service, object):
         if response is not None:
             log.info('Orchestrate API response: %s', response.status_code)
             if response.status_code == 200:
+
                 log.info('Orchestrate process successful')
+                return SUCCESS
             elif response.status_code != 500:
                 data = response.json()
                 message = data['details']
+
                 log.info('Orchestrate process response: %s',message)
+                return FAILED
             else: 
                 log.info('Orchestrate API did not send a readable message')
+                return FAILED
 
