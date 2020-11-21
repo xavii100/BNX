@@ -5,6 +5,7 @@ client:
     cf-api: /treasury/common-framework/move
     orchestrate-api: /treasury/common-framework/orchestrate
 uuid: '59932'
+time-waited: 30
 excluded-folders:
   - REJ
   - TRASH_FILES

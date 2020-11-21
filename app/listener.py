@@ -23,7 +23,7 @@ class Listener():
             log.info('Starting listener inbox on %s', path_inbox)
             while True:
                 self.start_listener(path_inbox)
-                time.sleep(1)
+                time.sleep(prop.TIME_WAITED)
         except KeyboardInterrupt:
             self.observer.stop()
 
