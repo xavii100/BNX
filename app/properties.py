@@ -48,5 +48,9 @@ class Properties(object):
         return self.__properties['outbox-path']
 
     @property
+    def TIME_WAITED(self):
+        return self.__properties['time-waited']
+
+    @property
     def UUID(self):
         return self.__properties['uuid']
