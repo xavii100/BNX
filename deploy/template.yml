@@ -144,8 +144,6 @@ objects:
           persistentVolumeClaim:
             claimName: "${PVC_NAME}"
         securityContext:
-          fsGroup: ${{USR_FS}}
-          runAsUser: ${{USR_FS}}
           supplementalGroups:
             - ${{SUPP_GROUP_1}}
             - ${{SUPP_GROUP_2}}
