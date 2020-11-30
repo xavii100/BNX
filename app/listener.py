@@ -4,17 +4,12 @@ from app.log import log
 from app import utils
 
 import os
-from watchdog.observers import Observer
 import time
 
 service = ServiceImpl()
 prop = Properties()
 
 class Listener():
-
-    def __init__(self):
-        self.observer_inbox = Observer()
-        self.observer_outbox = Observer()
 
     def check_outbox(self):    
         try:
@@ -35,13 +30,4 @@ class Listener():
     
     def send_files_to_service(self, directories, path_inbox):
         for file_name in directories:
-            if self.is_valid_file(file_name, path_inbox):
-                service.send_file(file_name)
-
-    def is_valid_file(self, file_name, path):
-        final_path = utils.append_file_name_to_path(path, file_name)
-        if os.path.exists(final_path) and os.path.isfile(final_path):
-            size = os.path.getsize(final_path)
-            if size > 0:
-                return True
-        return False
+            service.send_file(file_name)
