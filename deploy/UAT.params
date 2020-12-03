@@ -1,0 +1,9 @@
+MEMORY_LIMIT=512Mi
+REPLICAS="1"
+PVC_NAME="pvc-gtdvnasnfs0647-cgqt4081-165265-165265"
+BASE_PATH="/nas"
+USR_FS=1005980000
+SUPP_GROUP_1=300238
+SUPP_GROUP_2=30010
+BASE_ROUTE="namicgswd10u-webapi.nam.nsroot.net"
+NOTIFICATIONS_URL="http://trr-generic-c-communication-nas.icg-msst-trr-165265.svc.cluster.local:8080/api/v1/swagger"
