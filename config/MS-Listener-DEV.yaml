@@ -14,3 +14,5 @@ inbox-path:
   - inbox
 outbox-path:
   - outbox
+temp-path:
+  - temporal

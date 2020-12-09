@@ -15,10 +15,14 @@ class Listener():
         try:
             path_dir_names = prop.INBOX_PATH
             path_inbox = utils.get_path_from_list(*path_dir_names)
+            tmp_path_dir_names = prop.TEMP_PATH
+            path_tmp = utils.get_path_from_list(*tmp_path_dir_names)
             log.info('Starting listener inbox on %s', path_inbox)
             while True:
+                utils.touch(path_tmp)
                 self.start_listener(path_inbox)
                 time.sleep(prop.TIME_WAITED)
+                utils.del_touch(path_tmp)
         except KeyboardInterrupt:
             self.observer.stop()
 
@@ -31,3 +35,5 @@ class Listener():
     def send_files_to_service(self, directories, path_inbox):
         for file_name in directories:
             service.send_file(file_name)
+            # time between files
+            time.sleep(2)

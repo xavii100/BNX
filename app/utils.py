@@ -29,3 +29,11 @@ def get_path_from_list(*argv):
     else:
         final = "{}/{}".format(base_path, "/".join(argv))
     return final
+
+def touch(path):
+    os.popen("touch {}".format(append_file_name_to_path(path, "touch-file")))
+
+def del_touch(path):
+    os.popen("rm {}".format(append_file_name_to_path(path, "touch-file")))
+
+

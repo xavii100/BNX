@@ -38,6 +38,9 @@ class Properties(object):
     @property
     def INBOX_PATH(self):
         return self.__properties['inbox-path']
+    @property
+    def TEMP_PATH(self):
+        return self.__properties['temp-path']
 
     @property
     def ORCHESTRATE_API(self):
