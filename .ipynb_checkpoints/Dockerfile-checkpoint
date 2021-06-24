@@ -1,11 +1,10 @@
-FROM ansible/centos7-ansible:latest
+FROM docker-enterprise-prod.artifactrepository.citigroup.net/developersvcs-python-ai/redhat-python3.6/rhel7/redhat-python-rhel7:latest
 
 # add yum repos to properly install gcc and yum-utils
-RUN yum update -y && \
-##  yum-config-manager --setopt=gpgcheck=0 --add-repo http://https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/ --nogpgcheck && \
-#    touch /var/lib/rpm/* && \
-    yum install --setopt=gpgcheck=0 -y yum-utils gcc && yum clean all && \
-    yum install python3 -y
+RUN yum-config-manager --setopt=gpgcheck=0 --add-repo http://openopen.nam.nsroot.net/openopen/not-cert/rhel7-x86_64/latest/RPMS.all --nogpgcheck && \
+    yum-config-manager --setopt=gpgcheck=0 --add-repo http://openopen.nam.nsroot.net/openopen/repos/rhel-7-server-rpms/ && \
+    touch /var/lib/rpm/* && \
+    yum install --setopt=gpgcheck=0 -y yum-utils gcc && yum clean all
 
 # Flask environment variables
 ENV FLASK_APP=setup.py \
@@ -21,8 +20,8 @@ WORKDIR /app
 RUN mkdir /opt/rh/rh-python36 -p && ln -s /opt/middleware/redhat_python/3.6.3 /opt/rh/rh-python36/root
 
 # Install dependencies
-COPY requirements.txt ./
-RUN pip3 install -r requirements.txt
+COPY pip.conf requirements.txt ./
+RUN pip install -r requirements.txt
 
 # Copy application source code into image
 COPY . .
